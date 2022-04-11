@@ -5,9 +5,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -22,8 +24,8 @@ fun NavGraphBuilder.SearchComposable() {
 
 @Composable
 fun SearchUI(viewModel: SearchViewModel) {
-    val name: List<String> by viewModel.searchResult.collectAsState()
-    val request: String by viewModel.searchRequest.collectAsState()
+    val name: List<String> by viewModel.searchResult.observeAsNonNullState()
+    val request: String by viewModel.searchRequest.observeAsNonNullState()
     Column {
         Text(text = "Hello $name!")
         TextField(
@@ -33,3 +35,6 @@ fun SearchUI(viewModel: SearchViewModel) {
         )
     }
 }
+
+@Composable
+fun <T> LiveData<T>.observeAsNonNullState(): State<T> = observeAsState(value!!)

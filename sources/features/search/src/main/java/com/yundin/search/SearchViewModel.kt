@@ -1,20 +1,19 @@
 package com.yundin.search
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class SearchViewModel : ViewModel() {
 
-    private val _searchRequest = MutableStateFlow("")
-    val searchRequest: StateFlow<String> = _searchRequest.asStateFlow()
-    private val _searchResult = MutableStateFlow(listOf<String>())
-    val searchResult = _searchResult.asStateFlow()
+    private val _searchRequest = MutableLiveData("")
+    val searchRequest: LiveData<String> = _searchRequest
+    private val _searchResult = MutableLiveData<List<String>>(listOf())
+    val searchResult: LiveData<List<String>> = _searchResult
 
     fun onInputChange(text: String) {
         _searchRequest.value = text
