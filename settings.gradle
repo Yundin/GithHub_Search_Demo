@@ -19,3 +19,5 @@ include ':search'
 project(':search').projectDir = new File(rootDir, 'sources/features/search')
 include ':navigation'
 project(':navigation').projectDir = new File(rootDir, 'sources/base/navigation')
+include ':designsystem'
+project(':designsystem').projectDir = new File(rootDir, 'sources/base/designsystem')

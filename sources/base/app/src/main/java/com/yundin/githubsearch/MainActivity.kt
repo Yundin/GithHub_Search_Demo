@@ -10,7 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import com.yundin.githubsearch.ui.theme.GithubSearchTheme
+import com.yundin.designsystem.theme.GithubSearchTheme
 import com.yundin.navigation.SearchScreens
 import com.yundin.search.SearchComposable
 

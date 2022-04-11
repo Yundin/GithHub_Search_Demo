@@ -12,6 +12,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/sources/base/app" />
+            <option value="$PROJECT_DIR$/sources/base/designsystem" />
             <option value="$PROJECT_DIR$/sources/base/navigation" />
             <option value="$PROJECT_DIR$/sources/features/search" />
           </set>

@@ -1,4 +1,4 @@
-package com.yundin.githubsearch.ui.theme
+package com.yundin.designsystem.theme
 
 import androidx.compose.ui.graphics.Color
 

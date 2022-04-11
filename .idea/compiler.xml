@@ -6,6 +6,7 @@
       <module name="Github Search.Github_Search.search" target="11" />
       <module name="Github Search.Github_Search.search-impl" target="11" />
       <module name="Github_Search.app" target="11" />
+      <module name="Github_Search.designsystem" target="11" />
       <module name="Github_Search.search-impl" target="11" />
     </bytecodeTargetLevel>
   </component>
