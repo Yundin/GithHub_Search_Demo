@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel target="1.7">
+    <bytecodeTargetLevel target="1.8">
       <module name="Github Search.Github_Search.app" target="11" />
+      <module name="Github Search.Github_Search.datasource" target="11" />
       <module name="Github Search.Github_Search.search" target="11" />
       <module name="Github Search.Github_Search.search-impl" target="11" />
       <module name="Github_Search.app" target="11" />

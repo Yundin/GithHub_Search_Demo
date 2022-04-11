@@ -13,7 +13,11 @@ import androidx.navigation.compose.rememberNavController
 import com.yundin.designsystem.theme.GithubSearchTheme
 import com.yundin.navigation.SearchScreens
 import com.yundin.search.SearchComposable
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 
+@ExperimentalCoroutinesApi
+@FlowPreview
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +34,8 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@ExperimentalCoroutinesApi
+@FlowPreview
 @Composable
 private fun NavHost() {
     val navController = rememberNavController()

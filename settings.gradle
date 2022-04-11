@@ -21,3 +21,5 @@ include ':navigation'
 project(':navigation').projectDir = new File(rootDir, 'sources/base/navigation')
 include ':designsystem'
 project(':designsystem').projectDir = new File(rootDir, 'sources/base/designsystem')
+include ':datasource'
+project(':datasource').projectDir = new File(rootDir, 'sources/base/datasource')
