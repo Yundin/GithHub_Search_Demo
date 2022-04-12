@@ -41,7 +41,10 @@ fun NavGraphBuilder.SearchComposable() {
 fun SearchUI(viewModel: SearchViewModel) {
     val lazyPagingItems = viewModel.searchResult.collectAsLazyPagingItems()
     val request: String by viewModel.searchRequest.observeAsNonNullState()
-    ObserveCustomTabEvents(event = viewModel.customTabsEvent, onLaunch = viewModel::onIntentLaunched)
+    ObserveCustomTabEvents(
+        event = viewModel.customTabsEvent,
+        onLaunch = viewModel::onIntentLaunched
+    )
     Column {
         SearchField(
             value = request,
@@ -64,32 +67,28 @@ private fun SearchResults(
     val lazyListState = rememberLazyListState()
     LaunchedEffect(lazyPagingItems.loadState.refresh) {
         // new query, scroll to top
-        lazyListState.scrollToItem(0, 0)
+        lazyListState.animateScrollToItem(0, 0)
     }
     LazyColumn(state = lazyListState) {
-        itemProgressBarForState(lazyPagingItems.loadState.refresh)
+        val onRetry = { lazyPagingItems.retry() }
+        itemProgressAndLoadingForState(lazyPagingItems.loadState.refresh, onRetry)
         itemsRepositories(lazyPagingItems = lazyPagingItems, onClick = onClick)
-        itemProgressBarForState(lazyPagingItems.loadState.append)
-        itemLoadingError(lazyPagingItems)
+        itemProgressAndLoadingForState(lazyPagingItems.loadState.append, onRetry)
     }
 }
 
-private fun LazyListScope.itemProgressBarForState(loadState: LoadState) {
+private fun LazyListScope.itemProgressAndLoadingForState(
+    loadState: LoadState,
+    onRetry: () -> Unit
+) {
     item {
         AnimatedVisibilityProgressBarItem(
             visible = loadState is LoadState.Loading
         )
-    }
-}
-
-private fun LazyListScope.itemLoadingError(lazyPagingItems: LazyPagingItems<Repository>) {
-    item {
-        val refreshFailed = lazyPagingItems.loadState.refresh is LoadState.Error
-        val appendFailed = lazyPagingItems.loadState.append is LoadState.Error
         AnimatedVisibility(
-            visible = refreshFailed || appendFailed
+            visible = loadState is LoadState.Error
         ) {
-            LoadingFailedItem { lazyPagingItems.retry() }
+            LoadingFailedItem(onRetryClick = onRetry)
         }
     }
 }
