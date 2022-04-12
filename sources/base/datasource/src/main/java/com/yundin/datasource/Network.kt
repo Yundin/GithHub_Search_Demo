@@ -17,7 +17,11 @@ internal class Network {
             val authInterceptor = BasicAuthInterceptor("yundin", "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")
             val client: OkHttpClient = OkHttpClient.Builder()
                 .addInterceptor(authInterceptor)
-                .addInterceptor(loggingInterceptor)
+                .apply {
+                    if (BuildConfig.DEBUG) {
+                        addInterceptor(loggingInterceptor)
+                    }
+                }
                 .build()
 
             val retrofit = Retrofit.Builder()
