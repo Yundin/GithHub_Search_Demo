@@ -39,6 +39,7 @@ dependencies {
 
     implementation project(':navigation')
     implementation project(':datasource')
+    implementation project(':designsystem')
 
     implementation "androidx.paging:paging-runtime:$paging_version"
     implementation "androidx.paging:paging-compose:1.0.0-alpha14"
