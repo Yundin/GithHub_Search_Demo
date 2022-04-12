@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="no_repository_description">No description</string>
+    <string name="loading_failed">Loading failed</string>
+    <string name="retry_btn">Retry</string>
+</resources>

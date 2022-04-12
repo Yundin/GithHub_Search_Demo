@@ -17,6 +17,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
@@ -54,7 +55,7 @@ fun SearchUI(viewModel: SearchViewModel) {
         SearchField(
             value = request,
             onValueChange = viewModel::onInputChange,
-            label = "GitHub repository search"
+            label = stringResource(R.string.repository_search_field_hint)
         )
         Divider()
         SearchResults(
@@ -135,7 +136,7 @@ private fun EmptyState(lazyPagingItems: LazyPagingItems<Repository>) {
             contentAlignment = Alignment.Center,
         ) {
             Text(
-                text = "Nothing to show",
+                text = stringResource(R.string.repository_search_empty_message),
             )
         }
     }

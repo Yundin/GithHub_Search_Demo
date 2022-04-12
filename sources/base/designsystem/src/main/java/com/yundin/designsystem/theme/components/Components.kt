@@ -11,7 +11,9 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.yundin.designsystem.R
 
 @Composable
 fun SearchField(value: String, onValueChange: (String) -> Unit, label: String) {
@@ -51,7 +53,7 @@ fun RepositoryCard(repository: UIRepository, onClick: () -> Unit) {
                 style = MaterialTheme.typography.h6
             )
             Text(
-                text = repository.description ?: "No description",
+                text = repository.description ?: stringResource(R.string.no_repository_description),
                 style = MaterialTheme.typography.body1
             )
         }
@@ -86,12 +88,12 @@ fun LoadingFailedItem(onRetryClick: () -> Unit) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Loading failed",
+            text = stringResource(R.string.loading_failed),
             style = MaterialTheme.typography.body1
         )
         Button(onClick = onRetryClick) {
             Text(
-                text = "Retry",
+                text = stringResource(R.string.retry_btn),
             )
         }
     }
