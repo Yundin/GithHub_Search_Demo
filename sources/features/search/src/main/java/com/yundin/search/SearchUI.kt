@@ -41,13 +41,7 @@ fun NavGraphBuilder.SearchComposable() {
 fun SearchUI(viewModel: SearchViewModel) {
     val lazyPagingItems = viewModel.searchResult.collectAsLazyPagingItems()
     val request: String by viewModel.searchRequest.observeAsNonNullState()
-    val context = LocalContext.current
-    LaunchedEffect(viewModel.customTabsEvent)  {
-        viewModel.customTabsEvent?.let {
-            it.intent.launchUrl(context, it.uri)
-            viewModel.onIntentLaunched()
-        }
-    }
+    ObserveCustomTabEvents(event = viewModel.customTabsEvent, onLaunch = viewModel::onIntentLaunched)
     Column {
         SearchField(
             value = request,
@@ -112,7 +106,17 @@ private fun LazyListScope.itemsRepositories(
             }
         }
     }
+}
 
+@Composable
+private fun ObserveCustomTabEvents(event: SearchViewModel.CustomTabEvent?, onLaunch: () -> Unit) {
+    val context = LocalContext.current
+    LaunchedEffect(event) {
+        event?.let {
+            it.intent.launchUrl(context, it.uri)
+            onLaunch()
+        }
+    }
 }
 
 @Composable
