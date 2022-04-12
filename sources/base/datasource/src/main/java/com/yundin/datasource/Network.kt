@@ -1,14 +1,16 @@
 package com.yundin.datasource
 
+import com.yundin.datasource.api.GithubApi
+import com.yundin.datasource.utils.BasicAuthInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 
-class Network {
+internal class Network {
     companion object {
-        fun getApi(): GithubApi {
+        fun createApi(): GithubApi {
             val loggingInterceptor = HttpLoggingInterceptor().apply {
                 setLevel(HttpLoggingInterceptor.Level.BODY)
             }

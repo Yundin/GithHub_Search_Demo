@@ -1,5 +1,6 @@
-package com.yundin.datasource
+package com.yundin.datasource.api
 
+import com.yundin.datasource.search.RepoSearchResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 

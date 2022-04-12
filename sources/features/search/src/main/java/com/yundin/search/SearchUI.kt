@@ -19,6 +19,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -26,9 +28,11 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
-import com.yundin.datasource.Repository
+import com.yundin.core.App
+import com.yundin.core.model.GithubRepository
 import com.yundin.designsystem.theme.components.*
 import com.yundin.navigation.SearchScreens
+import com.yundin.search.di.DaggerSearchComponent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 
@@ -36,7 +40,18 @@ import kotlinx.coroutines.FlowPreview
 @FlowPreview
 fun NavGraphBuilder.SearchComposable() {
     composable(SearchScreens.Search.destination) {
-        val viewModel: SearchViewModel = viewModel()
+        val app = LocalContext.current.applicationContext as App
+        val viewModel: SearchViewModel = viewModel(
+            factory = object : ViewModelProvider.Factory {
+                @Suppress("UNCHECKED_CAST")
+                override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                    return DaggerSearchComponent.builder()
+                        .searchDependencies(app.getAppProvider())
+                        .build()
+                        .getSearchViewModel() as T
+                }
+            }
+        )
         SearchUI(viewModel = viewModel)
     }
 }
@@ -68,8 +83,8 @@ fun SearchUI(viewModel: SearchViewModel) {
 
 @Composable
 private fun SearchResults(
-    lazyPagingItems: LazyPagingItems<Repository>,
-    onClick: (Repository) -> Unit
+    lazyPagingItems: LazyPagingItems<GithubRepository>,
+    onClick: (GithubRepository) -> Unit
 ) {
     val lazyListState = rememberLazyListState()
     LaunchedEffect(lazyPagingItems.loadState.refresh) {
@@ -101,8 +116,8 @@ private fun LazyListScope.itemProgressAndLoadingForState(
 }
 
 private fun LazyListScope.itemsRepositories(
-    lazyPagingItems: LazyPagingItems<Repository>,
-    onClick: (Repository) -> Unit
+    lazyPagingItems: LazyPagingItems<GithubRepository>,
+    onClick: (GithubRepository) -> Unit
 ) {
     items(lazyPagingItems) { repository ->
         repository?.let {
@@ -126,7 +141,7 @@ private fun ObserveCustomTabEvents(event: SearchViewModel.CustomTabEvent?, onLau
 }
 
 @Composable
-private fun EmptyState(lazyPagingItems: LazyPagingItems<Repository>) {
+private fun EmptyState(lazyPagingItems: LazyPagingItems<GithubRepository>) {
     val notLoading = lazyPagingItems.loadState.run {
         listOf(refresh, append, prepend).all { it is LoadState.NotLoading }
     }

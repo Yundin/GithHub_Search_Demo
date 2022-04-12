@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -37,8 +38,8 @@ android {
 
 dependencies {
 
+    implementation project(':core')
     implementation project(':navigation')
-    implementation project(':datasource')
     implementation project(':designsystem')
 
     implementation "androidx.paging:paging-runtime:$paging_version"
@@ -53,7 +54,8 @@ dependencies {
     implementation "androidx.navigation:navigation-compose:$nav_version"
 
     // dagger
-    implementation 'com.google.dagger:dagger-android:2.41'
+    implementation "com.google.dagger:dagger-android:$dagger_version"
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
 
     // lifecycle
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"

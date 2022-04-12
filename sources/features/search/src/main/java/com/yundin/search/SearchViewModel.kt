@@ -6,35 +6,33 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.*
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.yundin.datasource.Network
-import com.yundin.datasource.RepoSearchPagingSource
-import com.yundin.datasource.Repository
+import com.yundin.core.model.GithubRepository
+import com.yundin.core.repository.SearchRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flatMapLatest
+import javax.inject.Inject
 
-class SearchViewModel : ViewModel() {
+class SearchViewModel @Inject constructor(
+    private val searchRepository: SearchRepository
+) : ViewModel() {
 
     private val _searchRequest = MutableLiveData("")
     val searchRequest: LiveData<String> = _searchRequest
 
     @FlowPreview
     @ExperimentalCoroutinesApi
-    val searchResult: Flow<PagingData<Repository>> = searchRequest
+    val searchResult: Flow<PagingData<GithubRepository>> = searchRequest
         .asFlow()
         .debounce(SEARCH_DEBOUNCE_DELAY)
         .filter { it.isNotBlank() }
         .flatMapLatest {
-            Pager(PagingConfig(30)) {
-                RepoSearchPagingSource(Network.getApi(), it)
-            }.flow
+            searchRepository.search(it)
         }
         .cachedIn(viewModelScope)
 
@@ -46,7 +44,7 @@ class SearchViewModel : ViewModel() {
         _searchRequest.value = text
     }
 
-    fun onRepositoryClick(repository: Repository) {
+    fun onRepositoryClick(repository: GithubRepository) {
         val builder = CustomTabsIntent.Builder()
         val customTabsIntent = builder.build()
         customTabsEvent = CustomTabEvent(customTabsIntent, Uri.parse(repository.htmlUrl))

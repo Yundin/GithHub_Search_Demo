@@ -1,7 +1,8 @@
-package com.yundin.datasource
+package com.yundin.datasource.search
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.yundin.datasource.api.GithubApi
 import retrofit2.HttpException
 import java.io.IOException
 

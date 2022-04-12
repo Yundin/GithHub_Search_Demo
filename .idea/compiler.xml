@@ -3,10 +3,12 @@
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel target="1.8">
       <module name="Github Search.Github_Search.app" target="11" />
+      <module name="Github Search.Github_Search.core" target="11" />
       <module name="Github Search.Github_Search.datasource" target="11" />
       <module name="Github Search.Github_Search.search" target="11" />
       <module name="Github Search.Github_Search.search-impl" target="11" />
       <module name="Github_Search.app" target="11" />
+      <module name="Github_Search.core" target="11" />
       <module name="Github_Search.designsystem" target="11" />
       <module name="Github_Search.search-impl" target="11" />
     </bytecodeTargetLevel>
