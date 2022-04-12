@@ -19,11 +19,8 @@ class RepoSearchPagingSource(
     }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Repository> {
-        val nextPageNumber = params.key ?: 1
-        val itemsLeft = totalCount?.let {
-            it - itemsLoaded
-        } ?: 100
-        val loadSize = params.loadSize.coerceIn(1..itemsLeft)
+        val loadSize = params.loadSize.coerceIn(1..100)
+        val nextPageNumber = itemsLoaded / loadSize + 1
         try {
             val response = api.searchRepositories(query, loadSize, nextPageNumber)
             totalCount = response.totalCount
