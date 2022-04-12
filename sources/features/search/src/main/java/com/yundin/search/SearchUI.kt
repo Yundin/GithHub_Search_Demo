@@ -1,16 +1,21 @@
 package com.yundin.search
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Divider
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -56,6 +61,7 @@ fun SearchUI(viewModel: SearchViewModel) {
             lazyPagingItems = lazyPagingItems,
             onClick = viewModel::onRepositoryClick
         )
+        EmptyState(lazyPagingItems = lazyPagingItems)
     }
 }
 
@@ -114,6 +120,23 @@ private fun ObserveCustomTabEvents(event: SearchViewModel.CustomTabEvent?, onLau
         event?.let {
             it.intent.launchUrl(context, it.uri)
             onLaunch()
+        }
+    }
+}
+
+@Composable
+private fun EmptyState(lazyPagingItems: LazyPagingItems<Repository>) {
+    val notLoading = lazyPagingItems.loadState.run {
+        listOf(refresh, append, prepend).all { it is LoadState.NotLoading }
+    }
+    if (notLoading && lazyPagingItems.itemCount == 0) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center,
+        ) {
+            Text(
+                text = "Nothing to show",
+            )
         }
     }
 }
