@@ -11,6 +11,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
@@ -40,16 +41,31 @@ fun NavGraphBuilder.SearchComposable() {
 fun SearchUI(viewModel: SearchViewModel) {
     val lazyPagingItems = viewModel.searchResult.collectAsLazyPagingItems()
     val request: String by viewModel.searchRequest.observeAsNonNullState()
+    val context = LocalContext.current
+    LaunchedEffect(viewModel.customTabsEvent)  {
+        viewModel.customTabsEvent?.let {
+            it.intent.launchUrl(context, it.uri)
+            viewModel.onIntentLaunched()
+        }
+    }
     Column {
-        SearchField(value = request, onValueChange = viewModel::onInputChange, label = "GitHub repository search")
+        SearchField(
+            value = request,
+            onValueChange = viewModel::onInputChange,
+            label = "GitHub repository search"
+        )
         Divider()
-        SearchResults(lazyPagingItems = lazyPagingItems)
+        SearchResults(
+            lazyPagingItems = lazyPagingItems,
+            onClick = viewModel::onRepositoryClick
+        )
     }
 }
 
 @Composable
 private fun SearchResults(
-    lazyPagingItems: LazyPagingItems<Repository>
+    lazyPagingItems: LazyPagingItems<Repository>,
+    onClick: (Repository) -> Unit
 ) {
     val lazyListState = rememberLazyListState()
     LaunchedEffect(lazyPagingItems.loadState.refresh) {
@@ -58,7 +74,7 @@ private fun SearchResults(
     }
     LazyColumn(state = lazyListState) {
         itemProgressBarForState(lazyPagingItems.loadState.refresh)
-        itemsRepositories(lazyPagingItems)
+        itemsRepositories(lazyPagingItems = lazyPagingItems, onClick = onClick)
         itemProgressBarForState(lazyPagingItems.loadState.append)
         itemLoadingError(lazyPagingItems)
     }
@@ -85,13 +101,14 @@ private fun LazyListScope.itemLoadingError(lazyPagingItems: LazyPagingItems<Repo
 }
 
 private fun LazyListScope.itemsRepositories(
-    lazyPagingItems: LazyPagingItems<Repository>
+    lazyPagingItems: LazyPagingItems<Repository>,
+    onClick: (Repository) -> Unit
 ) {
     items(lazyPagingItems) { repository ->
         repository?.let {
             val uiRepository = UIRepository(it.fullName, it.description)
             RepositoryCard(repository = uiRepository) {
-                // click
+                onClick(it)
             }
         }
     }
