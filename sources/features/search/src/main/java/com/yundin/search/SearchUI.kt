@@ -86,6 +86,7 @@ private fun SearchResults(
     lazyPagingItems: LazyPagingItems<GithubRepository>,
     onClick: (GithubRepository) -> Unit
 ) {
+    // resets on conf changes, bug: https://issuetracker.google.com/issues/179397301
     val lazyListState = rememberLazyListState()
     LaunchedEffect(lazyPagingItems.loadState.refresh) {
         // new query, scroll to top
