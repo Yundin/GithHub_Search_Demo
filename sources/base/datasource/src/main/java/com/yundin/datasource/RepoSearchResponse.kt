@@ -13,7 +13,7 @@ data class Repository(
     @SerializedName("full_name")
     val fullName: String,
     @SerializedName("description")
-    val description: String,
+    val description: String?,
     @SerializedName("html_url")
     val htmlUrl: String,
 )
