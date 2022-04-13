@@ -15,6 +15,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -36,6 +37,7 @@ import com.yundin.search.di.DaggerSearchComponent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 
+@ExperimentalComposeUiApi
 @ExperimentalCoroutinesApi
 @FlowPreview
 fun NavGraphBuilder.SearchComposable() {
@@ -56,6 +58,7 @@ fun NavGraphBuilder.SearchComposable() {
     }
 }
 
+@ExperimentalComposeUiApi
 @ExperimentalCoroutinesApi
 @FlowPreview
 @Composable

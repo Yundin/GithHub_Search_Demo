@@ -7,16 +7,23 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.yundin.designsystem.R
 
+@ExperimentalComposeUiApi
 @Composable
 fun SearchField(value: String, onValueChange: (String) -> Unit, label: String) {
+    val keyboardController = LocalSoftwareKeyboardController.current
     TextField(
         modifier = Modifier
             .fillMaxWidth()
@@ -25,7 +32,12 @@ fun SearchField(value: String, onValueChange: (String) -> Unit, label: String) {
         onValueChange = onValueChange,
         label = {
             Text(text = label)
-        }
+        },
+        singleLine = true,
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+        keyboardActions = KeyboardActions(onAny = {
+            keyboardController?.hide()
+        })
     )
 }
 
