@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -24,6 +25,7 @@ import com.yundin.designsystem.R
 @Composable
 fun SearchField(value: String, onValueChange: (String) -> Unit, label: String) {
     val keyboardController = LocalSoftwareKeyboardController.current
+    val focusManager = LocalFocusManager.current
     TextField(
         modifier = Modifier
             .fillMaxWidth()
@@ -37,6 +39,7 @@ fun SearchField(value: String, onValueChange: (String) -> Unit, label: String) {
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
         keyboardActions = KeyboardActions(onAny = {
             keyboardController?.hide()
+            focusManager.clearFocus()
         })
     )
 }
