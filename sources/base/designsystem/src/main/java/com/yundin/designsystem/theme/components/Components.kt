@@ -53,7 +53,7 @@ fun RepositoryCard(repository: UIRepository, onClick: () -> Unit) {
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 4.dp),
         shape = RoundedCornerShape(8.dp),
-        elevation = 4.dp
+        color = MaterialTheme.colors.onSurface.copy(alpha = 0.05f),
     ) {
         Column(
             modifier = Modifier
