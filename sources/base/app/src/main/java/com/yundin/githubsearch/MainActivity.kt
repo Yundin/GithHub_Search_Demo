@@ -23,6 +23,7 @@ import kotlinx.coroutines.FlowPreview
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setTheme(R.style.Theme_GithubSearch)
         setContent {
             GithubSearchTheme {
                 Surface(
