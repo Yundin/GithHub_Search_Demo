@@ -1,6 +1,7 @@
 package com.yundin.search
 
-import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -39,6 +40,7 @@ import kotlinx.coroutines.FlowPreview
 
 @ExperimentalComposeUiApi
 @ExperimentalCoroutinesApi
+@ExperimentalAnimationApi
 @FlowPreview
 fun NavGraphBuilder.SearchComposable() {
     composable(SearchScreens.Search.destination) {
@@ -60,6 +62,7 @@ fun NavGraphBuilder.SearchComposable() {
 
 @ExperimentalComposeUiApi
 @ExperimentalCoroutinesApi
+@ExperimentalAnimationApi
 @FlowPreview
 @Composable
 fun SearchUI(viewModel: SearchViewModel) {
@@ -84,6 +87,7 @@ fun SearchUI(viewModel: SearchViewModel) {
     }
 }
 
+@ExperimentalAnimationApi
 @Composable
 private fun SearchResults(
     lazyPagingItems: LazyPagingItems<GithubRepository>,
@@ -103,18 +107,19 @@ private fun SearchResults(
     }
 }
 
+@ExperimentalAnimationApi
 private fun LazyListScope.itemProgressAndLoadingForState(
     loadState: LoadState,
     onRetry: () -> Unit
 ) {
     item {
-        AnimatedVisibilityProgressBarItem(
-            visible = loadState is LoadState.Loading
-        )
-        AnimatedVisibility(
-            visible = loadState is LoadState.Error
-        ) {
-            LoadingFailedItem(onRetryClick = onRetry)
+        AnimatedContent(targetState = loadState) {
+                if (it is LoadState.Loading) {
+                    ProgressBarItem()
+                }
+                if (it is LoadState.Error) {
+                    LoadingFailedItem(onRetryClick = onRetry)
+                }
         }
     }
 }

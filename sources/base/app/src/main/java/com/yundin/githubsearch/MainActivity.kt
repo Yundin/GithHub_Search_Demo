@@ -3,6 +3,7 @@ package com.yundin.githubsearch
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -19,6 +20,7 @@ import kotlinx.coroutines.FlowPreview
 
 @ExperimentalComposeUiApi
 @ExperimentalCoroutinesApi
+@ExperimentalAnimationApi
 @FlowPreview
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,6 +41,7 @@ class MainActivity : ComponentActivity() {
 
 @ExperimentalComposeUiApi
 @ExperimentalCoroutinesApi
+@ExperimentalAnimationApi
 @FlowPreview
 @Composable
 private fun NavHost() {
