@@ -14,7 +14,7 @@ internal class Network {
             val loggingInterceptor = HttpLoggingInterceptor().apply {
                 setLevel(HttpLoggingInterceptor.Level.BODY)
             }
-            val authInterceptor = BasicAuthInterceptor("yundin", "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")
+            val authInterceptor = BasicAuthInterceptor("yundin", "")
             val client: OkHttpClient = OkHttpClient.Builder()
                 .addInterceptor(authInterceptor)
                 .apply {
